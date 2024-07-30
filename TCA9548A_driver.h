@@ -11,6 +11,7 @@
 /*
 	BIT 	7	6	5	4	3	2	1	0
 	CH		7	6	5	4	3	2	1	0
+			8 	4 	2 	1	8	4	2	1
 
 */
 
@@ -22,6 +23,8 @@
 #define TCA9548A_CHANNEL_5 								(0x20)
 #define TCA9548A_CHANNEL_6 								(0x40)
 #define TCA9548A_CHANNEL_7 								(0x80)
+
+#define TCA9548A_CHANNEL_ALL 							(0xFF)
 
 /*_____ M A C R O S ________________________________________________________*/
 

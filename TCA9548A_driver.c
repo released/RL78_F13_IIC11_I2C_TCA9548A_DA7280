@@ -89,6 +89,9 @@ MD_STATUS TCA9548A_SetChannel(unsigned char channel)
 		case 8:
 			ch = TCA9548A_CHANNEL_7;
 			break;
+		case 9:
+			ch = TCA9548A_CHANNEL_ALL;
+			break;	
 		default:
 			// ch = 0x00;
 			break;

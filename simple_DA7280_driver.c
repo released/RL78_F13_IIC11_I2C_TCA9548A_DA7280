@@ -230,9 +230,7 @@ unsigned char read_DA7280_trig_nIRQ(unsigned char nIRQ)
 
 void DA7280_trig_nIRQ(unsigned char nIRQ)
 {
-    unsigned char ext_PinNo = 0;
-
-    ext_PinNo = DA7280_nIRQ_mapping_to_INT(nIRQ);
+    unsigned char ext_PinNo = nIRQ;
 
     switch(ext_PinNo)
     {
@@ -463,7 +461,7 @@ MD_STATUS _simple_DA7280_SetIRQEvent1(unsigned char report_event)
 
     event = tmp;
     
-    #if (ENABLE_DA7280_LOG == 1)
+    #if (ENABLE_DA7280_IRQ_EVENT_LOG == 1)
     printf("%s-1-r:0x%02X\r\n",indicator,event);
     #endif
 
@@ -473,7 +471,7 @@ MD_STATUS _simple_DA7280_SetIRQEvent1(unsigned char report_event)
     IIC11_I2C_write(device_addr,reg_addr,&tmp,1);
 
 
-    #if (ENABLE_DA7280_LOG == 1)
+    #if (ENABLE_DA7280_IRQ_EVENT_LOG == 1)
     printf("%s-2-w:0x%02X\r\n",indicator,tmp);
     #endif
 
@@ -485,7 +483,7 @@ MD_STATUS _simple_DA7280_SetIRQEvent1(unsigned char report_event)
         return ret;
     }
 
-    #if (ENABLE_DA7280_LOG == 1)
+    #if (ENABLE_DA7280_IRQ_EVENT_LOG == 1)
     printf("%s-3-r:0x%02X\r\n",indicator,tmp);
     #endif
 
@@ -544,8 +542,14 @@ MD_STATUS _simple_DA7280_CheckIRQEvent1(unsigned char* report_event)
 
     if (ret == MD_OK)
     {
-        #if (ENABLE_DA7280_LOG == 1)
+        #if (ENABLE_DA7280_IRQ_EVENT_LOG == 1)
         printf("%s done(0x%02X)\r\n",indicator,tmp);
+        #endif
+    }
+    else
+    {
+        #if (ENABLE_DA7280_IRQ_EVENT_LOG == 1)
+        printf("%s ERROR(0x%02X:0x%02X)\r\n",indicator,tmp,*report_event);
         #endif
     }
 
@@ -999,7 +1003,7 @@ void DA7280_forceStop(void)
 }
 
 
-void DA7280_PlaybackFinishCheck(void)
+MD_STATUS DA7280_PlaybackFinishCheck(void)
 {
     /*    
         4.  When the haptic sequence is completed, DA7280 will signal this by setting nIRQ = 0 and setting 
@@ -1083,6 +1087,7 @@ void DA7280_PlaybackFinishCheck(void)
                 printf("[error]%s:0x%02X\r\n",indicator,ret);
             }
 
+            break;
         }
         #if 0
         else if (event == E_SEQ_FAULT)
@@ -1166,7 +1171,7 @@ void DA7280_PlaybackFinishCheck(void)
         #endif
     }
 
-
+    return ret;
 }
 
 void DA7280_PlaybackIndex(unsigned char idx , unsigned char loop , unsigned char enableContinue)

@@ -1,13 +1,70 @@
 QualityReport
-2024年7月30日 下午 01:16:31
+2024年7月30日 下午 04:39:19
 
 ------ Start build(RL78_F13_IIC11_I2C_TCA9548A_DA7280, DefaultBuild) ------
------- Build ended(Error:0, Warning:0)(RL78_F13_IIC11_I2C_TCA9548A_DA7280, DefaultBuild) ------
+C:\Program Files (x86)\Renesas Electronics\CS+\CC\CC-RL\V1.13.00\Bin\ccrl.exe custom_func.c -cpu=S3 -o DefaultBuild\custom_func.obj "-dev=C:\Program Files (x86)\Renesas Electronics\CS+\CC\Device\RL78\Devicefile\DR5F10BMG.DVF" -g -g_line -Onothing -I src\code_gen -I .\ -I . -I DA7280 -lang=c99 -c -MAKEUD=DefaultBuild -exec_time=C:\Users\averyc\AppData\Local\Temp\CSPlusBuildTool_09d4fd5c646445a898d9f7625bd427f1au10xgpd.ul5 -msg_lang=english
+custom_func.c(161):W0520069:Integer conversion resulted in truncation
+C:\Program Files (x86)\Renesas Electronics\CS+\CC\CC-RL\V1.13.00\Bin\rlink.exe -MAKEUD=DefaultBuild\RL78_F13_IIC11_I2C_TCA9548A_DA7280.lk.ud -subcommand=DefaultBuild\RL78_F13_IIC11_I2C_TCA9548A_DA7280.clnk
+W0561017:Paid license of CC-RL V1 is not found, and the evaluation period has expired. Please consider purchasing the product.
+RAMDATA SECTION:  00000110 Byte(s)
+ROMDATA SECTION:  00001135 Byte(s)
+PROGRAM SECTION:  00006bfb Byte(s)
+W0561017:Paid license of CC-RL V1 is not found, and the evaluation period has expired. Please consider purchasing the product.
+Renesas Optimizing Linker Completed
+------ Build ended(Error:0, Warning:3)(RL78_F13_IIC11_I2C_TCA9548A_DA7280, DefaultBuild) ------
+
+--- CommandFile 1 ---
+DefaultBuild\RL78_F13_IIC11_I2C_TCA9548A_DA7280.clnk :
+-Input=DefaultBuild\cstart.obj
+-Input=DefaultBuild\stkinit.obj
+-Input=DefaultBuild\custom_func.obj
+-Input=DefaultBuild\misc_config.obj
+-Input=DefaultBuild\simple_DA7280_driver.obj
+-Input=DefaultBuild\simple_i2c_drive.obj
+-Input=DefaultBuild\TCA9548A_driver.obj
+-Input=DefaultBuild\r_main.obj
+-Input=DefaultBuild\r_systeminit.obj
+-Input=DefaultBuild\r_cg_cgc.obj
+-Input=DefaultBuild\r_cg_cgc_user.obj
+-Input=DefaultBuild\r_cg_port.obj
+-Input=DefaultBuild\r_cg_port_user.obj
+-Input=DefaultBuild\r_cg_intc.obj
+-Input=DefaultBuild\r_cg_intc_user.obj
+-Input=DefaultBuild\r_cg_serial.obj
+-Input=DefaultBuild\r_cg_serial_user.obj
+-Input=DefaultBuild\r_cg_timer.obj
+-Input=DefaultBuild\r_cg_timer_user.obj
+-DEVICE=C:\Program Files (x86)\Renesas Electronics\CS+\CC\Device\RL78\Devicefile\DR5F10BMG.DVF
+-DEBug
+-NOCOmpress
+-NOOPtimize
+-OUtput=DefaultBuild\RL78_F13_IIC11_I2C_TCA9548A_DA7280.abs
+-OCDBG=84
+-DEBUG_MONITOR=1FF00-1FFFF
+-USER_OPT_BYTE=E9FFF8
+-OCDTR
+-LISt=DefaultBuild\RL78_F13_IIC11_I2C_TCA9548A_DA7280.map
+-SHow=Total_size
+-AUTO_SECTION_LAYOUT
+-ROm=.data=.dataR
+-ROm=.sdata=.sdataR
+-NOMessage
+-MEMory=High
+-Total_size
+-NOLOgo
+-LIBrary=DefaultBuild\RL78_F13_IIC11_I2C_TCA9548A_DA7280.lib
+-end
+-Input=DefaultBuild\RL78_F13_IIC11_I2C_TCA9548A_DA7280.abs
+-DEVICE=C:\Program Files (x86)\Renesas Electronics\CS+\CC\Device\RL78\Devicefile\DR5F10BMG.DVF
+-OUtput=DefaultBuild\RL78_F13_IIC11_I2C_TCA9548A_DA7280.mot
+-FOrm=Stype
+-NOMessage
+-exit
 
 
 --- SHA1 hash value of output files ---
-D:\SourceCode\_Avery_Renesas\CS+\RL78_F13_IIC11_I2C_TCA9548A_DA7280\DefaultBuild\RL78_F13_IIC11_I2C_TCA9548A_DA7280.abs: 1954c39f43b49ada9d32c5a4ca9cd78e750f4ff7
-D:\SourceCode\_Avery_Renesas\CS+\RL78_F13_IIC11_I2C_TCA9548A_DA7280\DefaultBuild\RL78_F13_IIC11_I2C_TCA9548A_DA7280.mot: edc128335e3720c10ca310a298fa74e095d73074
+D:\SourceCode\_Avery_Renesas\CS+\RL78_F13_IIC11_I2C_TCA9548A_DA7280\DefaultBuild\RL78_F13_IIC11_I2C_TCA9548A_DA7280.abs: 086986777bde35c4ac51f85e4b62a07638d6c066
+D:\SourceCode\_Avery_Renesas\CS+\RL78_F13_IIC11_I2C_TCA9548A_DA7280\DefaultBuild\RL78_F13_IIC11_I2C_TCA9548A_DA7280.mot: 4295ccb903c3d52f8dd23abbae993089158ebdf2
 
 
 --- System Information ---
@@ -35,13 +92,13 @@ D:\SourceCode\_Avery_Renesas\CS+\RL78_F13_IIC11_I2C_TCA9548A_DA7280\DefaultBuild
  C:\Program Files (x86)\Renesas Electronics\CS+\CC
 *Memory Usage
  *Private Working Set
-  281 MB
+  329 MB
  *Number of GDI Objects
-  2560
+  2659
  *Number of USER Objects
-  1166
+  1364
  *Opened Files
-  1 editors, 1 files, 20 KB
+  2 editors, 2 files, 26 KB
 
 --- Build Tool Plug-in Information ---
 RH850 Build tool CC-RH Plug-in
@@ -218,6 +275,8 @@ Build Tool Information
 Debug Tool Information
  *RL78 E2 Lite
   Debugger Library V8.11.00.03 [21 Nov 2023]
+  RL78 E2 Lite Executor V4.12d [18 Oct 2023]
+  E2 Lite 4100 A F/W V07.05
   
 
 Other Tool Information

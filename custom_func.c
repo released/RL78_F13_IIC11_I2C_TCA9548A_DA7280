@@ -43,8 +43,8 @@ struct flag_16bit flag_BTN_CTL;
 
 /*_____ D E F I N I T I O N S ______________________________________________*/
 
-volatile unsigned int counter_tick = 0;
-volatile unsigned int btn_counter_tick = 0;
+volatile unsigned long counter_tick = 0;
+volatile unsigned long btn_counter_tick = 0;
 
 unsigned char key_buffer = 0;
 unsigned char flag_play = 0;
@@ -62,8 +62,8 @@ typedef struct BtnEvent_t
     unsigned char ButtonLongPressed;
     unsigned char ButtonDebounceState;
     unsigned char ButtonBitShift;
-    unsigned int ButtonDebounceCnt;
-    unsigned int ButtonDebounceTimer;
+    unsigned long ButtonDebounceCnt;
+    unsigned long ButtonDebounceTimer;
 } BtnEvent_t;
 
 typedef enum  
@@ -85,12 +85,12 @@ BtnEvent_t event_btn[8] = {0};
 /*_____ F U N C T I O N S __________________________________________________*/
 
 
-unsigned int btn_get_tick(void)
+unsigned long btn_get_tick(void)
 {
 	return (btn_counter_tick);
 }
 
-void btn_set_tick(unsigned int t)
+void btn_set_tick(unsigned long t)
 {
 	btn_counter_tick = t;
 }
@@ -104,12 +104,12 @@ void btn_tick_counter(void)
     }
 }
 
-unsigned int get_tick(void)
+unsigned long get_tick(void)
 {
 	return (counter_tick);
 }
 
-void set_tick(unsigned int t)
+void set_tick(unsigned long t)
 {
 	counter_tick = t;
 }
@@ -123,12 +123,12 @@ void tick_counter(void)
     }
 }
 
-void delay_ms(unsigned int ms)
+void delay_ms(unsigned long ms)
 {
 	#if 1
-    unsigned int tickstart = get_tick();
-    unsigned int wait = ms;
-	unsigned int tmp = 0;
+    unsigned long tickstart = get_tick();
+    unsigned long wait = ms;
+	unsigned long tmp = 0;
 	
     while (1)
     {
@@ -150,17 +150,54 @@ void delay_ms(unsigned int ms)
 	#endif
 }
 
-void TC9548A_DA7280_Ctrl(unsigned char idx)
-{                                    
-    TCA9548A_SetChannel(idx);
-    DA7280_PlaybackIndex(SEQUENCE_IDX0 , 0 ,0);
+void TC9548A_DA7280_Ctrl(unsigned char idx_drv , unsigned char idx_waveform)
+{                 
+    unsigned long timeout = 0;
 
-    if (read_DA7280_trig_nIRQ(idx))
+    TCA9548A_SetChannel(idx_drv);
+    DA7280_PlaybackIndex(idx_waveform , 0 ,0);
+
+    #if 0
+    timeout = 0xFFFFFFFF;
+
+    while (1)
     {
-        clr_DA7280_trig_nIRQ(idx);
+        if (read_DA7280_trig_nIRQ(idx_drv))
+        {
+            clr_DA7280_trig_nIRQ(idx_drv);
+            DA7280_PlaybackFinishCheck();
+            printf("DA7280 exec finish(%d)\r\n\r\n",idx_drv);
+            break;
+        }
+        else
+        {
+            if (timeout-- == 0)
+            {
+                printf("DA7280 exec TIMEOUT(%d)\r\n\r\n",idx_drv);
+                break;
+            }
+        }
+    }    
+    #else
+    if (read_DA7280_trig_nIRQ(idx_drv))
+    {
+        clr_DA7280_trig_nIRQ(idx_drv);
         DA7280_PlaybackFinishCheck();
-        printf("DA7280 exec finish\r\n\r\n");
+        printf("DA7280 exec finish(%d)\r\n\r\n",idx_drv);
     }
+    #endif
+}
+
+
+void TC9548A_DA7280_Ctrl_All(unsigned char idx_drv , unsigned char idx_waveform)
+{                       
+    unsigned char i = 0;
+
+    for( i = 1 ; i <=8 ; i++)
+    {
+        TC9548A_DA7280_Ctrl(i,idx_waveform);
+    }
+    
 }
 
 void btnX_Debounce(BTN_IDX_t idx,unsigned char IOState)
@@ -224,7 +261,7 @@ void btn8_task(void)
         FLAG_BTN_8_SHORT_PRESSED = 1;
         printf("button 8 SHORT pressed\r\n");
                                 
-        TC9548A_DA7280_Ctrl(8);
+        TC9548A_DA7280_Ctrl(8,SEQUENCE_IDX0);
     }
 
     if ((FLAG_BTN_8_LONG_PRESSED == 0 ) && event_btn[BTN_IDX_8].ButtonLongPressed)
@@ -257,7 +294,7 @@ void btn7_task(void)
         FLAG_BTN_7_SHORT_PRESSED = 1;
         printf("button 7 SHORT pressed\r\n");
                                 
-        TC9548A_DA7280_Ctrl(7);
+        TC9548A_DA7280_Ctrl(7,SEQUENCE_IDX0);
     }
 
     if ((FLAG_BTN_7_LONG_PRESSED == 0 ) && event_btn[BTN_IDX_7].ButtonLongPressed)
@@ -290,7 +327,7 @@ void btn6_task(void)
         FLAG_BTN_6_SHORT_PRESSED = 1;
         printf("button 6 SHORT pressed\r\n");
                                 
-        TC9548A_DA7280_Ctrl(6);
+        TC9548A_DA7280_Ctrl(6,SEQUENCE_IDX0);
     }
 
     if ((FLAG_BTN_6_LONG_PRESSED == 0 ) && event_btn[BTN_IDX_6].ButtonLongPressed)
@@ -323,7 +360,7 @@ void btn5_task(void)
         FLAG_BTN_5_SHORT_PRESSED = 1;
         printf("button 5 SHORT pressed\r\n");
                                 
-        TC9548A_DA7280_Ctrl(5);
+        TC9548A_DA7280_Ctrl(5,SEQUENCE_IDX0);
     }
 
     if ((FLAG_BTN_5_LONG_PRESSED == 0 ) && event_btn[BTN_IDX_5].ButtonLongPressed)
@@ -356,7 +393,8 @@ void btn4_task(void)
         FLAG_BTN_4_SHORT_PRESSED = 1;
         printf("button 4 SHORT pressed\r\n");
                                 
-        TC9548A_DA7280_Ctrl(4);
+        // TC9548A_DA7280_Ctrl(4,SEQUENCE_IDX0);
+        TC9548A_DA7280_Ctrl_All(9,SEQUENCE_IDX3);   // all haptics , waveform 4
     }
 
     if ((FLAG_BTN_4_LONG_PRESSED == 0 ) && event_btn[BTN_IDX_4].ButtonLongPressed)
@@ -388,8 +426,9 @@ void btn3_task(void)
     {
         FLAG_BTN_3_SHORT_PRESSED = 1;
         printf("button 3 SHORT pressed\r\n");
-                                
-        TC9548A_DA7280_Ctrl(3);
+                          
+        // TC9548A_DA7280_Ctrl(3,SEQUENCE_IDX0);      
+        TC9548A_DA7280_Ctrl_All(9,SEQUENCE_IDX2);   // all haptics , waveform 3
     }
 
     if ((FLAG_BTN_3_LONG_PRESSED == 0 ) && event_btn[BTN_IDX_3].ButtonLongPressed)
@@ -421,8 +460,9 @@ void btn2_task(void)
     {
         FLAG_BTN_2_SHORT_PRESSED = 1;
         printf("button 2 SHORT pressed\r\n");
-                                
-        TC9548A_DA7280_Ctrl(2);
+                              
+        // TC9548A_DA7280_Ctrl(2,SEQUENCE_IDX0);  
+        TC9548A_DA7280_Ctrl_All(9,SEQUENCE_IDX1);   // all haptics , waveform 2
     }
 
     if ((FLAG_BTN_2_LONG_PRESSED == 0 ) && event_btn[BTN_IDX_2].ButtonLongPressed)
@@ -454,8 +494,9 @@ void btn1_task(void)
     {
         FLAG_BTN_1_SHORT_PRESSED = 1;
         printf("button 1 SHORT pressed\r\n");
-                                
-        TC9548A_DA7280_Ctrl(1);
+                          
+        // TC9548A_DA7280_Ctrl(1,SEQUENCE_IDX0);      
+        TC9548A_DA7280_Ctrl_All(9,SEQUENCE_IDX0);   // all haptics , waveform 1
     }
 
     if ((FLAG_BTN_1_LONG_PRESSED == 0 ) && event_btn[BTN_IDX_1].ButtonLongPressed)
@@ -576,9 +617,10 @@ void Init_all_DA7280_cfg(void)
     {
         TCA9548A_SetChannel(i);
         printf("\r\nDA7280(%d)\r\n",i);
-        DA7280_init();
-        
+        DA7280_init();        
     }
+
+    // TC9548A_DA7280_Ctrl_All(9,SEQUENCE_IDX0);
 }
 
 void Timer_1ms_IRQ(void)
@@ -619,8 +661,8 @@ void Timer_1ms_IRQ(void)
 
 void loop(void)
 {
-	static unsigned int LOG1 = 0;
-	static unsigned int specific_cnt = 0;
+	static unsigned long LOG1 = 0;
+	static unsigned long specific_cnt = 0;
 
     if (FLAG_PROJ_TIMER_PERIOD_1000MS)
     {

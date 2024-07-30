@@ -101,7 +101,7 @@ MD_STATUS IIC11_I2C_read(unsigned char device_addr,unsigned char reg_addr,unsign
         u32IIC1xTimeOutCnt--;
         if(u32IIC1xTimeOutCnt == 0)
         {
-            printf("%s bus busy(ready for xfer),dev addr:0x%02X,reg addr:0x%02X\r\n",device_addr,reg_addr);
+            printf("%s bus busy(ready for xfer),dev addr:0x%02X,reg addr:0x%02X\r\n",__func__ ,device_addr,reg_addr);
             return MD_BUSY1;
         }
     } 	//Make sure bus is ready for xfer
@@ -120,7 +120,7 @@ MD_STATUS IIC11_I2C_read(unsigned char device_addr,unsigned char reg_addr,unsign
         u32IIC1xTimeOutCnt--;
         if(u32IIC1xTimeOutCnt == 0)
         {
-            printf("%s bus busy*(xfer is complete),dev addr:0x%02X,reg addr:0x%02X\r\n",device_addr,reg_addr);
+            printf("%s bus busy*(xfer is complete),dev addr:0x%02X,reg addr:0x%02X\r\n",__func__,device_addr,reg_addr);
             return MD_BUSY2;
         }
     } 	//Wait until the xfer is complete
@@ -176,7 +176,7 @@ MD_STATUS IIC11_I2C_write(unsigned char device_addr,unsigned char reg_addr,unsig
         u32IIC1xTimeOutCnt--;
         if(u32IIC1xTimeOutCnt == 0)
         {
-            printf("%s bus busy(ready for xfer),dev addr:0x%02X,reg addr:0x%02X\r\n",device_addr,reg_addr);
+            printf("%s bus busy(ready for xfer),dev addr:0x%02X,reg addr:0x%02X\r\n",__func__,device_addr,reg_addr);
             return MD_BUSY1;
         }
     } 	//Make sure bus is ready for xfer
@@ -195,7 +195,7 @@ MD_STATUS IIC11_I2C_write(unsigned char device_addr,unsigned char reg_addr,unsig
         u32IIC1xTimeOutCnt--;
         if(u32IIC1xTimeOutCnt == 0)
         {
-            printf("%s bus busy(xfer is complete),dev addr:0x%02X,reg addr:0x%02X\r\n",device_addr,reg_addr);
+            printf("%s bus busy(xfer is complete),dev addr:0x%02X,reg addr:0x%02X\r\n",__func__,device_addr,reg_addr);
             return MD_BUSY2;
         }
     } 	//Wait until the xfer is complete
