@@ -56,7 +56,7 @@ void reset_TIMER_PERIOD_1000MS(void);
 bool Is_TIMER_PERIOD_1000MS_Trig(void);
 void Timer_1ms_IRQ(void);
 
-void delay_ms(unsigned int ms);
+void delay_ms(unsigned long ms);
 
 MD_STATUS drv_IIC11_I2C_read(uint8_t adr, uint8_t * const rx_buf, uint16_t rx_num);
 MD_STATUS drv_IIC11_I2C_write(uint8_t adr, uint8_t * const tx_buf, uint16_t tx_num);
@@ -68,7 +68,7 @@ bool drv_get_IIC11_receive_flag(void);
 void drv_set_IIC11_send_flag(bool flag);
 bool drv_get_IIC11_send_flag(void);
 
-void DA7280_PlaybackFinishCheck(void);
+MD_STATUS DA7280_PlaybackFinishCheck(void);
 void DA7280_forceStop(void);
 void DA7280_playback_finish_check(void);
 void DA7280_playback_idx(unsigned char idx , unsigned char loop , unsigned char en);

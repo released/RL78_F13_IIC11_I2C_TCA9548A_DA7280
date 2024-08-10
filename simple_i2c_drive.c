@@ -95,18 +95,18 @@ MD_STATUS IIC11_I2C_read(unsigned char device_addr,unsigned char reg_addr,unsign
 
     tmp = reg_addr;
 
-    u32IIC1xTimeOutCnt = IIC1x_TIMEOUT_LIMIT;
-    while (drv_get_IIC11_send_flag() || drv_Is_IIC11_bus_busy())
-    {
-        u32IIC1xTimeOutCnt--;
-        if(u32IIC1xTimeOutCnt == 0)
-        {
-            printf("%s bus busy(ready for xfer),dev addr:0x%02X,reg addr:0x%02X\r\n",__func__ ,device_addr,reg_addr);
-            return MD_BUSY1;
-        }
-    } 	//Make sure bus is ready for xfer
-	drv_set_IIC11_send_flag(1);
+    // u32IIC1xTimeOutCnt = IIC1x_TIMEOUT_LIMIT;
+    // while (drv_get_IIC11_send_flag() || drv_Is_IIC11_bus_busy())
+    // {
+    //     u32IIC1xTimeOutCnt--;
+    //     if(u32IIC1xTimeOutCnt == 0)
+    //     {
+    //         printf("%s bus busy(ready for xfer),dev addr:0x%02X,reg addr:0x%02X\r\n",__func__ ,device_addr,reg_addr);
+    //         return MD_BUSY1;
+    //     }
+    // } 	//Make sure bus is ready for xfer
 
+	drv_set_IIC11_send_flag(1);
 	ret = drv_IIC11_I2C_write(device_addr, &tmp, 1);
 	if (ret != MD_OK)
     {
@@ -170,18 +170,18 @@ MD_STATUS IIC11_I2C_write(unsigned char device_addr,unsigned char reg_addr,unsig
         buffer[i+1] = tx_xfer_data[i];
     }
 
-    u32IIC1xTimeOutCnt = IIC1x_TIMEOUT_LIMIT;
-    while (drv_get_IIC11_send_flag() || drv_Is_IIC11_bus_busy())
-    {
-        u32IIC1xTimeOutCnt--;
-        if(u32IIC1xTimeOutCnt == 0)
-        {
-            printf("%s bus busy(ready for xfer),dev addr:0x%02X,reg addr:0x%02X\r\n",__func__,device_addr,reg_addr);
-            return MD_BUSY1;
-        }
-    } 	//Make sure bus is ready for xfer
-	drv_set_IIC11_send_flag(1);
+    // u32IIC1xTimeOutCnt = IIC1x_TIMEOUT_LIMIT;
+    // while (drv_get_IIC11_send_flag() || drv_Is_IIC11_bus_busy())
+    // {
+    //     u32IIC1xTimeOutCnt--;
+    //     if(u32IIC1xTimeOutCnt == 0)
+    //     {
+    //         printf("%s bus busy(ready for xfer),dev addr:0x%02X,reg addr:0x%02X\r\n",__func__,device_addr,reg_addr);
+    //         return MD_BUSY1;
+    //     }
+    // } 	//Make sure bus is ready for xfer
 
+	drv_set_IIC11_send_flag(1);
 	ret = drv_IIC11_I2C_write(device_addr, buffer , tx_num + 1);   // reg byte + data byte , at least 2 bytes
 	if (ret != MD_OK)
     {
